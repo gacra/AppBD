@@ -5,13 +5,8 @@
  */
 package projetobd;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.io.FileOutputStream;
 import java.sql.Connection;
 
 /**
@@ -21,6 +16,7 @@ import java.sql.Connection;
 public class IntGraf extends javax.swing.JFrame{
 
     private Connection connection;
+    private Image iconeTitulo;
     /**
      * Creates new form IntGraf
      */
@@ -28,7 +24,7 @@ public class IntGraf extends javax.swing.JFrame{
         this.connection = connection;
         this.setTitle("Tóquio 2020");
         this.setResizable(false);
-        Image iconeTitulo = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Tokyo-2020-2.jpg"));
+        iconeTitulo = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Tokyo-2020-2.jpg"));
         this.setIconImage(iconeTitulo);
         initComponents();
         this.setLocationRelativeTo(null);
@@ -46,7 +42,7 @@ public class IntGraf extends javax.swing.JFrame{
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         botaoInserir = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        botaoRel = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         botaoListar = new javax.swing.JButton();
@@ -69,11 +65,11 @@ public class IntGraf extends javax.swing.JFrame{
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton1.setText("Relatório");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botaoRel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        botaoRel.setText("Relatório");
+        botaoRel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botaoRelActionPerformed(evt);
             }
         });
 
@@ -116,7 +112,7 @@ public class IntGraf extends javax.swing.JFrame{
                         .addGap(35, 35, 35)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(botaoModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(botaoRel, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(29, 29, 29)
@@ -142,7 +138,7 @@ public class IntGraf extends javax.swing.JFrame{
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(botaoListar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(botaoRel, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel2)))
@@ -163,28 +159,10 @@ public class IntGraf extends javax.swing.JFrame{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Document relatorioPDF = new Document();
-        
-        try{
-            
-            PdfWriter.getInstance(relatorioPDF, new FileOutputStream("C:\\Users\\Guilherme\\Desktop\\Relatório.pdf"));
-            
-            relatorioPDF.open();
-            
-            relatorioPDF.setPageSize(PageSize.A4);
-            
-            relatorioPDF.add(new Paragraph("Relatório Tóquio 2020."));
-            
-            
-            
-        }catch(Exception e){
-            System.out.println("Erro PDF");
-        }finally{
-            relatorioPDF.close();
-        }
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void botaoRelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoRelActionPerformed
+        Relatorio relatorio = new Relatorio(this, true, connection);
+        relatorio.setVisible(true);        
+    }//GEN-LAST:event_botaoRelActionPerformed
 
     private void botaoInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoInserirActionPerformed
         Inserir inserir = new Inserir(this, true, connection);
@@ -206,7 +184,7 @@ public class IntGraf extends javax.swing.JFrame{
     private javax.swing.JButton botaoInserir;
     private javax.swing.JButton botaoListar;
     private javax.swing.JButton botaoModificar;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton botaoRel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
