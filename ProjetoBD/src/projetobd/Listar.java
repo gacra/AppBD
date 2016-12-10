@@ -1,6 +1,14 @@
 package projetobd;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 public class Listar extends javax.swing.JDialog{
 
@@ -14,6 +22,7 @@ public class Listar extends javax.swing.JDialog{
         this.connection = connection;
         initComponents();
         this.setLocationRelativeTo(null);
+        listarAtletas();
     }
 
     /**
@@ -25,18 +34,21 @@ public class Listar extends javax.swing.JDialog{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabela = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Listar Atletas");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        tabela.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Nome", "Data Nasc.", "Nº Passaporte", "Sexo", "Altura", "Peso", "País"
@@ -46,7 +58,7 @@ public class Listar extends javax.swing.JDialog{
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -57,30 +69,115 @@ public class Listar extends javax.swing.JDialog{
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabela);
+        if (tabela.getColumnModel().getColumnCount() > 0) {
+            tabela.getColumnModel().getColumn(0).setResizable(false);
+            tabela.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tabela.getColumnModel().getColumn(1).setResizable(false);
+            tabela.getColumnModel().getColumn(1).setPreferredWidth(250);
+            tabela.getColumnModel().getColumn(2).setResizable(false);
+            tabela.getColumnModel().getColumn(2).setPreferredWidth(44);
+            tabela.getColumnModel().getColumn(3).setResizable(false);
+            tabela.getColumnModel().getColumn(3).setPreferredWidth(44);
+            tabela.getColumnModel().getColumn(4).setResizable(false);
+            tabela.getColumnModel().getColumn(4).setPreferredWidth(5);
+            tabela.getColumnModel().getColumn(5).setResizable(false);
+            tabela.getColumnModel().getColumn(5).setPreferredWidth(10);
+            tabela.getColumnModel().getColumn(6).setResizable(false);
+            tabela.getColumnModel().getColumn(6).setPreferredWidth(10);
+            tabela.getColumnModel().getColumn(7).setResizable(false);
+            tabela.getColumnModel().getColumn(7).setPreferredWidth(100);
+        }
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setText("Atletas inscritos:");
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/projetobd/Tokyo-2020-menor.jpg"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1012, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addGap(38, 38, 38))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1012, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void listarAtletas(){
+        try{
+            Statement stmt;
+            ResultSet rs;
+            //ArrayList paisesA = new ArrayList();
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM ATLETA ORDER BY ID_");
+            DefaultTableModel model = (DefaultTableModel) tabela.getModel();
+            while (rs.next()) {
+                
+                String data = rs.getString("DATANASCIMENTO");
+                String dataCerta = Character.toString(data.charAt(8)) + Character.toString(data.charAt(9)) +
+                    "/" + Character.toString(data.charAt(5)) + Character.toString(data.charAt(6)) +
+                    "/" + Character.toString(data.charAt(2)) + Character.toString(data.charAt(3));
+                
+                float altura = Float.valueOf(rs.getString("ALTURA"));
+                DecimalFormat df = new DecimalFormat("0.00");
+                String alturaCerta = df.format(altura).replace('.', ',');
+                
+                float peso = Float.valueOf(rs.getString("PESO"));
+                DecimalFormat df2 = new DecimalFormat("000.000");
+                String pesoCerto = df2.format(peso).replace('.', ',');
+                
+                model.addRow(new String[]{rs.getString("ID_"), rs.getString("NOME"), dataCerta,
+                rs.getString("NPASSAPORTE"), rs.getString("SEXO"), alturaCerta,
+                pesoCerto, rs.getString("PAIS")});
+            }
+
+            
+        }catch(SQLException ex){
+            Logger.getLogger(Inserir.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
 }

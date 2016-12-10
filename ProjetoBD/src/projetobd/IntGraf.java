@@ -5,8 +5,13 @@
  */
 package projetobd;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.FileOutputStream;
 import java.sql.Connection;
 
 /**
@@ -159,8 +164,26 @@ public class IntGraf extends javax.swing.JFrame{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Relatorio relatorio = new Relatorio(this, true);
-        relatorio.setVisible(true);
+        Document relatorioPDF = new Document();
+        
+        try{
+            
+            PdfWriter.getInstance(relatorioPDF, new FileOutputStream("C:\\Users\\Guilherme\\Desktop\\Relatório.pdf"));
+            
+            relatorioPDF.open();
+            
+            relatorioPDF.setPageSize(PageSize.A4);
+            
+            relatorioPDF.add(new Paragraph("Relatório Tóquio 2020."));
+            
+            
+            
+        }catch(Exception e){
+            System.out.println("Erro PDF");
+        }finally{
+            relatorioPDF.close();
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void botaoInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoInserirActionPerformed
