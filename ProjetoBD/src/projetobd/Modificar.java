@@ -5,12 +5,13 @@
  */
 package projetobd;
 
-import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -23,7 +24,7 @@ import javax.swing.text.MaskFormatter;
  *
  * @author Guilherme
  */
-public class Inserir extends javax.swing.JDialog{
+public class Modificar extends javax.swing.JDialog{
 
     Connection connection;
     String[] paises = null;
@@ -32,7 +33,7 @@ public class Inserir extends javax.swing.JDialog{
     /**
      * Creates new form Inserir
      */
-    public Inserir(java.awt.Frame parent, boolean modal, Connection connection){
+    public Modificar(java.awt.Frame parent, boolean modal, Connection connection){
         super(parent, modal);
         this.connection = connection;
         this.icone = new ImageIcon(getClass().getResource("mascote.jpg"));
@@ -71,20 +72,22 @@ public class Inserir extends javax.swing.JDialog{
         campoPeso = new javax.swing.JFormattedTextField();
         CampoPais = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        botaoModificar = new javax.swing.JButton();
+        botaoRemover = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         campoErro = new javax.swing.JTextPane();
+        botaoVoltar = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        botaoPesquisar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Inserir atleta");
+        setTitle("Modificar atleta");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel9.setText("Dados do novo atleta:");
+        jLabel9.setText("Digite o ID do atleta:");
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/projetobd/Tokyo-2020-menor.jpg"))); // NOI18N
 
@@ -132,6 +135,7 @@ public class Inserir extends javax.swing.JDialog{
         jLabel8.setText("País que representa:");
 
         campoNome.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        campoNome.setEnabled(false);
         campoNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 campoNomeActionPerformed(evt);
@@ -139,6 +143,7 @@ public class Inserir extends javax.swing.JDialog{
         });
 
         campoData.setText("19/02/92");
+        campoData.setEnabled(false);
         campoData.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         try{
             MaskFormatter maskID = new MaskFormatter("##/##/##");
@@ -162,6 +167,7 @@ public class Inserir extends javax.swing.JDialog{
             maskID.setPlaceholderCharacter('_');
             maskID.install(campoPassaporte);
         }catch(ParseException ex){}
+        campoPassaporte.setEnabled(false);
         campoPassaporte.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         campoPassaporte.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -172,6 +178,7 @@ public class Inserir extends javax.swing.JDialog{
         campoSexo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         campoSexo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Masculino", "Feminino" }));
         campoSexo.setToolTipText("Selecione");
+        campoSexo.setEnabled(false);
 
         campoAltura.setText("0,00");
         try{
@@ -179,6 +186,7 @@ public class Inserir extends javax.swing.JDialog{
             maskID.setPlaceholderCharacter('_');
             maskID.install(campoAltura);
         }catch(ParseException ex){}
+        campoAltura.setEnabled(false);
         campoAltura.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         campoAltura.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -197,6 +205,7 @@ public class Inserir extends javax.swing.JDialog{
             maskID.setPlaceholderCharacter('_');
             maskID.install(campoPeso);
         }catch(ParseException ex){}
+        campoPeso.setEnabled(false);
         campoPeso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         campoPeso.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -206,22 +215,25 @@ public class Inserir extends javax.swing.JDialog{
 
         CampoPais.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         CampoPais.setModel(new javax.swing.DefaultComboBoxModel(paises));
+        CampoPais.setEnabled(false);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setText("Inserir");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botaoModificar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        botaoModificar.setText("Modificar");
+        botaoModificar.setEnabled(false);
+        botaoModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botaoModificarActionPerformed(evt);
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton3.setText("Descartar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        botaoRemover.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        botaoRemover.setText("Remover");
+        botaoRemover.setEnabled(false);
+        botaoRemover.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                botaoRemoverActionPerformed(evt);
             }
         });
 
@@ -229,16 +241,26 @@ public class Inserir extends javax.swing.JDialog{
         campoErro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jScrollPane1.setViewportView(campoErro);
 
+        botaoVoltar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        botaoVoltar.setText("Voltar");
+        botaoVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoVoltarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(64, 64, 64)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(botaoModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(botaoRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58))
+                .addComponent(botaoVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -248,8 +270,9 @@ public class Inserir extends javax.swing.JDialog{
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(botaoModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botaoRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botaoVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE))
         );
@@ -259,6 +282,14 @@ public class Inserir extends javax.swing.JDialog{
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel12.setText("metros");
+
+        botaoPesquisar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        botaoPesquisar.setText("Pesquisar");
+        botaoPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoPesquisarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -310,7 +341,9 @@ public class Inserir extends javax.swing.JDialog{
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel1)
                                         .addGap(18, 18, 18)
-                                        .addComponent(campoID, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(campoID, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(51, 51, 51)
+                                        .addComponent(botaoPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel10)))
                         .addGap(25, 25, 25))
@@ -325,10 +358,11 @@ public class Inserir extends javax.swing.JDialog{
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel9)
-                        .addGap(26, 26, 26)
+                        .addGap(21, 21, 21)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(campoID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(campoID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(botaoPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(jLabel10)))
@@ -413,39 +447,111 @@ public class Inserir extends javax.swing.JDialog{
         // TODO add your handling code here:
     }//GEN-LAST:event_campoAlturaActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String s, insert;
-        insert = "INSERT INTO ATLETA VALUES('" + campoID.getText() + "', '" + campoNome.getText() + "', '" +
-                campoData.getText() + "', '" + campoPassaporte.getText() + "', '";
+    private void botaoModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoModificarActionPerformed
+        String insert;
+        insert = "UPDATE ATLETA SET NOME = '" + campoNome.getText() + "', DATANASCIMENTO = '" +
+                campoData.getText() + "', NPASSAPORTE = '" + campoPassaporte.getText() 
+                + "', SEXO = '";
         if(campoSexo.getSelectedIndex() == 0){
             insert += "M";
         }else{
             insert += "F";
         }
-        insert += "', '" + campoAltura.getText() + "', '" + campoPeso.getText() + "', '" +
-                (String) CampoPais.getSelectedItem() + "')";
-        
-        //System.out.println(insert);
+        insert += "', ALTURA = '" + campoAltura.getText() + "', PESO = '" + campoPeso.getText() 
+                + "', PAIS = '" + (String) CampoPais.getSelectedItem() + "' WHERE ID_ = '" +
+                campoID.getText() + "'";
         
         try{
             PreparedStatement pstmt = connection.prepareStatement(insert);
             pstmt.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Atleta inserido", "Tóquio 2020", WIDTH, icone);
+            JOptionPane.showMessageDialog(this, "Dados atualizados", "Tóquio 2020", WIDTH, icone);
             pstmt.close();
             this.dispose();
         } catch (SQLException e) {
-            campoErro.setText("Atleta não pode ser inserido. Erro:\n" + e.getMessage());
+            campoErro.setText("Dados não foram atualizados. Erro:\n" + e.getMessage());
         }
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_botaoModificarActionPerformed
 
     private void campoPesoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_campoPesoMouseClicked
         campoPeso.setCaretPosition(0);
     }//GEN-LAST:event_campoPesoMouseClicked
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void botaoRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoRemoverActionPerformed
+        String delete;
+        delete = "DELETE ATLETA WHERE ID_ = '" + campoID.getText() + "'";
+        
+        System.out.println(delete);
+        
+        try{
+            PreparedStatement pstmt = connection.prepareStatement(delete);
+            pstmt.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Atleta excluído", "Tóquio 2020", WIDTH, icone);
+            pstmt.close();
+            this.dispose();
+        } catch (SQLException e) {
+            campoErro.setText("Atleta não foi exluído. Erro:\n" + e.getMessage());
+        }
+    }//GEN-LAST:event_botaoRemoverActionPerformed
+
+    private void botaoPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPesquisarActionPerformed
+        try{
+            Statement stmt;
+            ResultSet rs;
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM ATLETA WHERE ID_ = " + campoID.getText());
+            
+            rs.next();
+            campoNome.setText(rs.getString("NOME"));
+            campoNome.setEnabled(true);
+            
+            String data = rs.getString("DATANASCIMENTO");
+            String dataCerta = Character.toString(data.charAt(8)) + Character.toString(data.charAt(9)) +
+                    "/" + Character.toString(data.charAt(5)) + Character.toString(data.charAt(6)) +
+                    "/" + Character.toString(data.charAt(2)) + Character.toString(data.charAt(3));
+            campoData.setText(dataCerta);        
+            campoData.setEnabled(true);
+            
+            campoPassaporte.setText(rs.getString("NPASSAPORTE"));
+            campoPassaporte.setEnabled(true);
+            
+            if(rs.getString("SEXO").equals("M")){
+                campoSexo.setSelectedIndex(0);
+            }else{
+                campoSexo.setSelectedIndex(1);
+            }
+            campoSexo.setEnabled(true);
+            
+            float altura = Float.valueOf(rs.getString("ALTURA"));
+            DecimalFormat df = new DecimalFormat("0.00");
+            campoAltura.setText(df.format(altura).replace('.', ','));
+            campoAltura.setEnabled(true);
+            
+            float peso = Float.valueOf(rs.getString("PESO"));
+            DecimalFormat df2 = new DecimalFormat("000.000");
+            campoPeso.setText(df2.format(peso).replace('.', ','));
+            campoPeso.setEnabled(true);
+            
+            CampoPais.setSelectedItem(rs.getString("PAIS"));
+            CampoPais.setEnabled(true);
+            
+            campoID.setEnabled(false);
+            botaoPesquisar.setText("Desfazer");
+            
+            campoErro.setText("");
+            botaoModificar.setEnabled(true);
+            botaoRemover.setEnabled(true);
+            
+            stmt.close();
+            
+        }catch(SQLException ex){
+            campoErro.setText("Não existe atleta com esse ID.\nTente novamente.");
+        }
+    }//GEN-LAST:event_botaoPesquisarActionPerformed
+
+    private void botaoVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoVoltarActionPerformed
         this.dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_botaoVoltarActionPerformed
 
     private void buscaPaises(){
         try{
@@ -467,6 +573,10 @@ public class Inserir extends javax.swing.JDialog{
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox CampoPais;
+    private javax.swing.JButton botaoModificar;
+    private javax.swing.JButton botaoPesquisar;
+    private javax.swing.JButton botaoRemover;
+    private javax.swing.JButton botaoVoltar;
     private javax.swing.JFormattedTextField campoAltura;
     private javax.swing.JFormattedTextField campoData;
     private javax.swing.JTextPane campoErro;
@@ -475,8 +585,6 @@ public class Inserir extends javax.swing.JDialog{
     private javax.swing.JFormattedTextField campoPassaporte;
     private javax.swing.JFormattedTextField campoPeso;
     private javax.swing.JComboBox campoSexo;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
