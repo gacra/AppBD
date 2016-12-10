@@ -61,7 +61,7 @@ public class IntGraf extends javax.swing.JFrame{
         });
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton1.setText("Relatóro");
+        jButton1.setText("Relatório");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -138,7 +138,7 @@ public class IntGraf extends javax.swing.JFrame{
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Inserir inserir = new Inserir(this, true);
+        Inserir inserir = new Inserir(this, true, connection);
         inserir.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
