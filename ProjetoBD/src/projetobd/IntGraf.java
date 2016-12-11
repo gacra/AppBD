@@ -1,18 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package projetobd;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
- *
- * @author Guilherme
- */
 public class IntGraf extends javax.swing.JFrame{
 
     private Connection connection;
@@ -28,6 +24,17 @@ public class IntGraf extends javax.swing.JFrame{
         this.setIconImage(iconeTitulo);
         initComponents();
         this.setLocationRelativeTo(null);
+                this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try{
+                    connection.close();
+                    System.out.println("Fechando conexão e encerrando.");
+                }catch(SQLException ex){
+                    Logger.getLogger(IntGraf.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
     }
 
     /**

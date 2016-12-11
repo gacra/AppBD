@@ -19,10 +19,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
 
-/**
- *
- * @author Guilherme
- */
 public class Inserir extends javax.swing.JDialog{
 
     Connection connection;

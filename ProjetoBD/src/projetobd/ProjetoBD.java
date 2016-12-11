@@ -18,6 +18,7 @@ public class ProjetoBD{
                     "bd2016");
             IntGraf intGraf = new IntGraf(connection);
             intGraf.setVisible(true);
+            
         }catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
